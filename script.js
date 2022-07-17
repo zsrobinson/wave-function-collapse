@@ -11,7 +11,7 @@ function setup() {
 	tiles.push(new Tile([0, 0, 0, 0], loadImage("img/blank.png")));
 	
 	for (let i = 0; i < 2; i++) {
-		for (let r = 0; r < 3; r++) {
+		for (let r = 1; r < 3; r++) {
 			tiles.push(tiles[i].rotate(r));
 		}
 	}   
@@ -23,7 +23,7 @@ function setup() {
 		}
 	}
 
-	cells[1][1].tile = tiles[3];
+	cells[1][1].tile = tiles[Math.floor(Math.random() * tiles.length)]
 	
 }
 
@@ -31,8 +31,7 @@ function draw() {
 	for (let i = 0; i < cellNum; i++) {
 		for (let j = 0; j < cellNum; j++) {
 			cells[i][j].draw();
+			cells[i][j].determineEntropy();
 		}
 	}
-	console.log(cells[1][2].determineEntropy())
-	noLoop()
 }
