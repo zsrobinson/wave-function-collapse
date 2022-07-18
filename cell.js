@@ -22,6 +22,11 @@ class Cell {
 	}
 
 	determineEntropy() {
+
+		if (this.tile) {
+			return;
+		}
+
 		let possibleTiles = tiles.slice(); // creates a copy of the array
 
 		// check up
@@ -70,9 +75,6 @@ class Cell {
 
 		// set this.tile to a random tile from the possibleTiles array
 		fill("white")
-		console.log(this.x, this.y)
-
-
 		text(possibleTiles.length, this.x + this.w/2, this.y + this.h/2)
 	}
 }

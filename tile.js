@@ -9,7 +9,6 @@ class Tile {
 		// rotate the image
 		const w = this.img.width;
 		const h = this.img.height;
-		console.log(this.img)
 		const newImg = createGraphics(w, h);
 		newImg.imageMode(CENTER);
 		newImg.translate(w / 2, h / 2);
