@@ -80,7 +80,10 @@ function findLeastEntropyTiles() {
 function step() {
 	drawTiles();
 	findLeastEntropyTiles();
-	if (done) return;
+	if (done) {
+		setTimeout(() => {location.reload()}, 1000)
+		return;
+	}
 	setTimeout(step, 10);
 }
 
