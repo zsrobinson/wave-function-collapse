@@ -14,17 +14,23 @@ class Cell {
 		strokeWeight(0);
 		if (this.tile) {
 			image(this.tile.img, this.x, this.y, this.w, this.h);
-			console.log("drawing tile " + this.tile.sides)
 		} else {
 			fill(64);
 			rect(this.x, this.y, this.w, this.h);
 		}
 	}
 
-	determineEntropy() {
+	displayEntropy() {
+		fill("white")
+		textSize(this.w/3)
+		const num = this.entropy().length;
+		if (num == 0) return
+		text(num, this.x + this.w/2, this.y + this.h/2)
+	}
 
+	entropy() {
 		if (this.tile) {
-			return;
+			return [];
 		}
 
 		let possibleTiles = tiles.slice(); // creates a copy of the array
@@ -73,8 +79,6 @@ class Cell {
 			}
 		}
 
-		// set this.tile to a random tile from the possibleTiles array
-		fill("white")
-		text(possibleTiles.length, this.x + this.w/2, this.y + this.h/2)
+		return possibleTiles;
 	}
 }
