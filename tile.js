@@ -1,7 +1,8 @@
 class Tile {
-	constructor(sides, img) {
+	constructor(sides, img, index) {
 		this.sides = sides;
 		this.img = img;
+		this.index = index;
 	}
 
 	rotate(n) { // pretty much sourced directly from The Coding Train

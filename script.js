@@ -6,10 +6,24 @@ let done = false;
 function setup() {
 	createCanvas(512, 512);
 
-	tiles.push(new Tile([1, 1, 0, 1], loadImage("img/tee.png")));
-	tiles.push(new Tile([1, 1, 0, 0], loadImage("img/bend.png")));
-	tiles.push(new Tile([1, 1, 1, 1], loadImage("img/cross.png")));
-	tiles.push(new Tile([0, 0, 0, 0], loadImage("img/blank.png")));
+	/* tiles.push(new Tile([1, 1, 0, 1], loadImage("lines/tee.png")));
+	tiles.push(new Tile([1, 1, 0, 0], loadImage("lines/bend.png")));
+	tiles.push(new Tile([1, 1, 1, 1], loadImage("lines/cross.png")));
+	tiles.push(new Tile([0, 0, 0, 0], loadImage("lines/blank.png"))); */
+
+	tiles.push(new Tile(["aaa", "aaa", "aaa", "aaa"], loadImage("circuit/0.png"), 0))
+	tiles.push(new Tile(["bbb", "bbb", "bbb", "bbb"], loadImage("circuit/1.png"), 1))
+	tiles.push(new Tile(["bbb", "bdb", "bbb", "bbb"], loadImage("circuit/2.png"), 2))
+	tiles.push(new Tile(["bbb", "bcb", "bbb", "bcb"], loadImage("circuit/3.png"), 3))
+	tiles.push(new Tile(["abb", "bdb", "bba", "aaa"], loadImage("circuit/4.png"), 4))
+	tiles.push(new Tile(["abb", "bbb", "bbb", "bba"], loadImage("circuit/5.png"), 5))
+	tiles.push(new Tile(["bbb", "bdb", "bbb", "bdb"], loadImage("circuit/6.png"), 6))
+	tiles.push(new Tile(["bcb", "bdb", "bcb", "bdb"], loadImage("circuit/7.png"), 7))
+	tiles.push(new Tile(["bcb", "bbb", "bdb", "bbb"], loadImage("circuit/8.png"), 8))
+	tiles.push(new Tile(["bdb", "bdb", "bbb", "bdb"], loadImage("circuit/9.png"), 9))
+	tiles.push(new Tile(["bdb", "bdb", "bdb", "bdb"], loadImage("circuit/10.png"), 10))
+	tiles.push(new Tile(["bdb", "bdb", "bbb", "bbb"], loadImage("circuit/11.png"), 11))
+	tiles.push(new Tile(["bbb", "bdb", "bbb", "bdb"], loadImage("circuit/12.png"), 12))
 
 	for (let i = 0; i < cellNum; i++) {
 		cells.push([]);
@@ -29,22 +43,18 @@ function setup() {
 // weird things happening...
 
 function draw() {
-	setTimeout(rotateTiles, 100)
-	setTimeout(start, 200)
+	setTimeout(rotateTiles, 500);
+	setTimeout(step, 1000);
 	noLoop();
 }
 
 function rotateTiles() {
-	for (let i = 0; i < 2; i++) {
+	const len = tiles.length
+	for (let i = 0; i < len; i++) {
 		for (let r = 0; r < 3; r++) {
 			tiles.push(tiles[i].rotate(r + 1));
 		}
 	}  
-}
-
-function start() {
-	cells[1][1].tile = tiles[Math.floor(Math.random() * tiles.length)]
-	step();
 }
 
 function findLeastEntropyTiles() {
@@ -81,10 +91,10 @@ function step() {
 	drawTiles();
 	findLeastEntropyTiles();
 	if (done) {
-		setTimeout(() => {location.reload()}, 1000)
+		/* setTimeout(() => {location.reload()}, 1000) */
 		return;
 	}
-	setTimeout(step, 10);
+	setTimeout(step, 50);
 }
 
 function drawTiles() {

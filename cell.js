@@ -21,10 +21,10 @@ class Cell {
 	}
 
 	displayEntropy() {
+		if (this.tile) return
 		fill("white")
 		textSize(this.w/3)
 		const num = this.entropy().length;
-		if (num == 0) return
 		text(num, this.x + this.w/2, this.y + this.h/2)
 	}
 
@@ -35,11 +35,18 @@ class Cell {
 
 		let possibleTiles = tiles.slice(); // creates a copy of the array
 
+		// could I condense all of these checks into a loop? probably.
+		// but I don't have the energy for that rn
+		// *ctrl-c ctrl-v*
+
+		let upCell, rightCell, downCell, leftCell;
+
 		// check up
 		if (this.j > 0) { // if it exists
-			if (cells[this.i][this.j-1].tile) { // and if it has a tile
+			upCell = cells[this.i][this.j-1].tile;
+			if (upCell) { // and if it has a tile
 				for (var k = possibleTiles.length -1; k >= 0 ; k--) {
-					if (cells[this.i][this.j-1].tile.sides[2] != possibleTiles[k].sides[0]) { // if the sides don't match
+					if (upCell.sides[2] != revStr(possibleTiles[k].sides[0])) { // if the sides don't match
 						possibleTiles.splice(k, 1); // remove it
 					}
 				}
@@ -48,9 +55,10 @@ class Cell {
 
 		// check right
 		if (this.i < cellNum - 1) { // if it exists
-			if (cells[this.i+1][this.j].tile) { // and if it has a tile
+			rightCell = cells[this.i+1][this.j].tile;
+			if (rightCell) { // and if it has a tile
 				for (var k = possibleTiles.length -1; k >= 0 ; k--) {
-					if (cells[this.i+1][this.j].tile.sides[3] != possibleTiles[k].sides[1]) { // if the sides don't match
+					if (rightCell.sides[3] != revStr(possibleTiles[k].sides[1])) { // if the sides don't match
 						possibleTiles.splice(k, 1); // remove it
 					}
 				}
@@ -59,9 +67,10 @@ class Cell {
 
 		// check down
 		if (this.j < cellNum - 1) { // if it exists
-			if (cells[this.i][this.j+1].tile) { // and if it has a tile
+			downCell = cells[this.i][this.j+1].tile;
+			if (downCell) { // and if it has a tile
 				for (var k = possibleTiles.length -1; k >= 0 ; k--) {
-					if (cells[this.i][this.j+1].tile.sides[0] != possibleTiles[k].sides[2]) { // if the sides don't match
+					if (downCell.sides[0] != revStr(possibleTiles[k].sides[2])) { // if the sides don't match
 						possibleTiles.splice(k, 1); // remove it
 					}
 				}
@@ -70,15 +79,30 @@ class Cell {
 
 		// check left
 		if (this.i > 0) { // if it exists
-			if (cells[this.i-1][this.j].tile) { // and if it has a tile
+			leftCell = cells[this.i-1][this.j].tile;
+			if (leftCell) { // and if it has a tile
 				for (var k = possibleTiles.length -1; k >= 0 ; k--) {
-					if (cells[this.i-1][this.j].tile.sides[1] != possibleTiles[k].sides[3]) { // if the sides don't match
+					if (leftCell.sides[1] != revStr(possibleTiles[k].sides[3])) { // if the sides don't match
 						possibleTiles.splice(k, 1); // remove it
 					}
 				}
 			}
 		}
 
+		// I cannot, for the life of me, figure out why I can't
+		// make it so two tiles of index 5 can't be next to each
+		// other. I feel like I've tried everything. I think I
+		// just need to come at it with a fresh mindset.
+
 		return possibleTiles;
 	}
+}
+
+function revStr(str) {
+	return str.split("").reverse().join("");
+}
+
+// return true if check fails
+function extraCheck(one, two) {
+	return one.index == 5 && two.index == 5;
 }
