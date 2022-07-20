@@ -1,7 +1,9 @@
-const cellNum = 16;
+const cellNum = 10;
 let tiles = [];
 let cells = [];
 let done = false;
+let cellStates = [];
+let stateNum = 0;
 
 function setup() {
 	createCanvas(512, 512);
@@ -65,7 +67,10 @@ function findLeastEntropyTiles() {
 		for (let j = 0; j < cellNum; j++) {
 
 			let tileEntropy = cells[i][j].entropy()
-			if (tileEntropy == 0) continue;
+			if (tileEntropy == "collapsed") continue;
+			if (tileEntropy.length == 0) {
+				return "backtrack!";
+			};
 
 			if (leastEntropy == undefined) {
 				leastEntropy = tileEntropy.length;
@@ -76,7 +81,6 @@ function findLeastEntropyTiles() {
 				leastEntropy = tileEntropy.length;
 				leastEntropyTiles = [cells[i][j]];
 			}
-			
 		}
 	}
 
@@ -88,13 +92,32 @@ function findLeastEntropyTiles() {
 }
 
 function step() {
+	
 	drawTiles();
-	findLeastEntropyTiles();
-	if (done) {
-		/* setTimeout(() => {location.reload()}, 1000) */
-		return;
+
+	if (findLeastEntropyTiles() == "backtrack!") {
+		console.log("backtracking");
+		console.log("current state: " + stateNum);
+		console.log("backtracked to state: " + cellStates[0].num);
+		console.log(cells == cellStates[0].cells);
+		cells = cloneArray(cellStates[0].cells);
+		console.log(cells == cellStates[0].cells);
+		drawTiles();
+
+		return
+
+	} else {
+		if (done) { return; }
+
+		cellStates.push({num: stateNum, cells: cloneArray(cells)});
+		stateNum++;
+		if (cellStates.length > 8) {
+			cellStates.shift();
+		}
+
+		setTimeout(step, 50);
 	}
-	setTimeout(step, 50);
+
 }
 
 function drawTiles() {
@@ -105,3 +128,8 @@ function drawTiles() {
 		}
 	}
 }
+
+// https://stackoverflow.com/a/45949356
+function cloneArray(a){
+	return a.map(e => Array.isArray(e) ? cloneArray(e) : e);
+  };

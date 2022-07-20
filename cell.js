@@ -30,7 +30,7 @@ class Cell {
 
 	entropy() {
 		if (this.tile) {
-			return [];
+			return "collapsed";
 		}
 
 		let possibleTiles = tiles.slice(); // creates a copy of the array
@@ -100,11 +100,6 @@ class Cell {
 				}
 			} catch {}
 		})
-
-		// would ideally implement backtracking here
-		if (possibleTiles.length == 0) {
-			location.reload()
-		}
 
 		return possibleTiles;
 	}
