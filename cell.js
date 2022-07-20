@@ -89,10 +89,22 @@ class Cell {
 			}
 		}
 
-		// I cannot, for the life of me, figure out why I can't
-		// make it so two tiles of index 5 can't be next to each
-		// other. I feel like I've tried everything. I think I
-		// just need to come at it with a fresh mindset.
+		// tile 5 cannot be matched with tile 5
+		let dirCells = [upCell, rightCell, downCell, leftCell];
+		dirCells.forEach(dirCell => {
+			try {
+				for (var k = possibleTiles.length -1; k >= 0 ; k--) {
+					if (possibleTiles[k].index == 5 && dirCell.index == 5) {
+						possibleTiles.splice(k, 1);
+					}
+				}
+			} catch {}
+		})
+
+		// would ideally implement backtracking here
+		if (possibleTiles.length == 0) {
+			location.reload()
+		}
 
 		return possibleTiles;
 	}
@@ -100,9 +112,4 @@ class Cell {
 
 function revStr(str) {
 	return str.split("").reverse().join("");
-}
-
-// return true if check fails
-function extraCheck(one, two) {
-	return one.index == 5 && two.index == 5;
 }

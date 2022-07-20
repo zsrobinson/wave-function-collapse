@@ -23,6 +23,6 @@ class Tile {
 			newSides[i] = this.sides[(i - n + len) % len];
 		}
 
-		return new Tile(newSides, newImg);
+		return new Tile(newSides, newImg, this.index);
 	}
 }
